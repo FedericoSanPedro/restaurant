@@ -1,5 +1,7 @@
 const sectionCenter = document.querySelector('.section-center');
 const btnContainer = document.querySelector('.btn-container');
+const navToggle = document.querySelector(".nav-toggle");
+const links = document.querySelector(".links");
 
 const API_URL = 'https://68856436f52d34140f69bceb.mockapi.io/api/menu';
 
@@ -21,6 +23,11 @@ async function displayMenuApp() {
   displayMenuItems(menu);
   displayMenuButtons(menu);
 }
+
+// Funcion del toggle
+navToggle.addEventListener("click", function () {
+  links.classList.toggle("show-links");
+});
 
 // Renderizar platos en el DOM
 function displayMenuItems(menuItems) {
@@ -72,3 +79,6 @@ function displayMenuButtons(menuItems) {
 
 // Iniciar app
 displayMenuApp();
+
+
+
