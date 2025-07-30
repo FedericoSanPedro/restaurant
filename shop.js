@@ -52,11 +52,15 @@ sectionCenter?.addEventListener('click', function (e) {
       const cart = JSON.parse(localStorage.getItem('cart')) || [];
       const existingItem = cart.find(p => p.id === id);
 
-      if (existingItem) {
+    if (existingItem) {
+        if (existingItem.quantity >= 10) {
+            alert(`Ya alcanzaste el límite de 10 unidades para "${item.title}".`);
+            return;
+        }
         existingItem.quantity += 1;
-      } else {
+        } else {
         cart.push({ ...item, quantity: 1 });
-      }
+    }
 
       localStorage.setItem('cart', JSON.stringify(cart));
       alert(`"${item.title}" agregado al carrito`);
