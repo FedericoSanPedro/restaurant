@@ -1,5 +1,3 @@
-// ✅ cart.js
-
 const navToggle = document.querySelector(".nav-toggle");
 const links = document.querySelector(".links");
 const cartTableBody = document.querySelector("#cart-table-body");
@@ -9,7 +7,7 @@ navToggle?.addEventListener("click", function () {
   links?.classList.toggle("show-links");
 });
 
-// Cargar productos del carrito
+// loading products to cart
 function loadCart() {
   const cart = JSON.parse(localStorage.getItem("cart")) || [];
 
@@ -41,6 +39,28 @@ function loadCart() {
   `).join('');
 }
 
+// Delete product
+cartTableBody?.addEventListener("click", (e) => {
+  if (e.target.classList.contains("delete-item")) {
+    const id = e.target.dataset.id;
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    cart = cart.filter(item => item.id !== id);
+    localStorage.setItem("cart", JSON.stringify(cart));
+    loadCart();
+  }
+});
+
+// Clean cart
+clearCartBtn?.addEventListener("click", () => {
+  if (confirm("¿Estás seguro de que querés vaciar el carrito?")) {
+    localStorage.removeItem("cart");
+    loadCart();
+  }
+});
+
+loadCart();
+
+// Change the total when quantity is change
 cartTableBody?.addEventListener("change", (e) => {
   if (e.target.classList.contains("cart-qty-select")) {
     const newQty = parseInt(e.target.value);
@@ -53,43 +73,6 @@ cartTableBody?.addEventListener("change", (e) => {
 
     product.quantity = newQty;
     localStorage.setItem("cart", JSON.stringify(cart));
-    loadCart(); // Vuelve a renderizar para actualizar los totales
-  }
-});
-
-// Eliminar producto del carrito
-cartTableBody?.addEventListener("click", (e) => {
-  if (e.target.classList.contains("delete-item")) {
-    const id = e.target.dataset.id;
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    cart = cart.filter(item => item.id !== id);
-    localStorage.setItem("cart", JSON.stringify(cart));
     loadCart();
   }
 });
-
-// Cambiar cantidad con el <select>
-cartTableBody?.addEventListener("change", (e) => {
-  if (e.target.classList.contains("quantity-select")) {
-    const id = e.target.dataset.id;
-    const newQuantity = parseInt(e.target.value);
-
-    const cart = JSON.parse(localStorage.getItem("cart")) || [];
-    const item = cart.find(product => product.id === id);
-    if (item) {
-      item.quantity = newQuantity;
-      localStorage.setItem("cart", JSON.stringify(cart));
-      loadCart();
-    }
-  }
-});
-
-// Vaciar carrito
-clearCartBtn?.addEventListener("click", () => {
-  if (confirm("¿Estás seguro de que querés vaciar el carrito?")) {
-    localStorage.removeItem("cart");
-    loadCart();
-  }
-});
-
-loadCart();

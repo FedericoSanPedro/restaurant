@@ -4,24 +4,24 @@ const navToggle = document.querySelector(".nav-toggle");
 const links = document.querySelector(".links");
 const API_URL = 'https://68856436f52d34140f69bceb.mockapi.io/api/menu';
 
-// Toggle menú
+// Toggle menu
 navToggle?.addEventListener("click", function () {
   links?.classList.toggle("show-links");
 });
 
-// Obtener menú
+// Get menu
 async function fetchMenu() {
   try {
     const res = await fetch(API_URL);
     const data = await res.json();
     return data;
   } catch (error) {
-    console.error('Error al obtener el menú:', error);
+    console.error('Error when getting menu:', error);
     return [];
   }
 }
 
-// Mostrar menú
+// Show menu
 function displayMenuItems(menuItems) {
   const displayMenu = menuItems.map(item => {
     return `
@@ -41,7 +41,7 @@ function displayMenuItems(menuItems) {
   sectionCenter.innerHTML = displayMenu;
 }
 
-// Botón de agregar al carrito
+// Add to cart
 sectionCenter?.addEventListener('click', function (e) {
   if (e.target.classList.contains('add-to-cart')) {
     const id = e.target.dataset.id;
@@ -54,7 +54,7 @@ sectionCenter?.addEventListener('click', function (e) {
 
     if (existingItem) {
         if (existingItem.quantity >= 10) {
-            alert(`Ya alcanzaste el límite de 10 unidades para "${item.title}".`);
+            alert(`You are at the limit of "${item.title}".`);
             return;
         }
         existingItem.quantity += 1;
@@ -63,12 +63,12 @@ sectionCenter?.addEventListener('click', function (e) {
     }
 
       localStorage.setItem('cart', JSON.stringify(cart));
-      alert(`"${item.title}" agregado al carrito`);
+      alert(`"${item.title}"  added to cart`);
     });
   }
 });
 
-// Botones de categoría
+// Category button
 function displayMenuButtons(menuItems) {
   const categories = ['all', ...new Set(menuItems.map(item => item.category))];
 
@@ -91,7 +91,7 @@ function displayMenuButtons(menuItems) {
   });
 }
 
-// Iniciar app
+// Starting app
 (async () => {
   const menu = await fetchMenu();
   displayMenuItems(menu);

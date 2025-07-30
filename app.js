@@ -11,7 +11,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const buyNowButton = document.querySelector(".buy-now");
   if (buyNowButton) {
     buyNowButton.addEventListener("click", () => {
-      // Redirigir a la tienda por ejemplo
       window.location.href = "shop.html";
     });
   }
