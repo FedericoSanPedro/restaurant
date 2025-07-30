@@ -297,6 +297,69 @@ Menu
   padding-top: 1rem;
 }
 
+/* tabla */
+.cart-table {
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.cart-table td,
+.cart-table th {
+  border-bottom: 1px solid #f1f5f9;
+  vertical-align: middle;
+}
+
+.cart-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.cart-product-img {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 12px;
+}
+
+.cart-product-name {
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.cart-price-tag {
+  background-color: #d1fae5;
+  color: #065f46;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  display: inline-block;
+  font-size: 14px;
+}
+
+.cart-delete-button {
+  color: #dc2626;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease-in-out;
+}
+
+.cart-delete-button:hover {
+  color: #b91c1c;
+  text-decoration: underline;
+}
+
+.cart-qty-select {
+  border: 1px solid #e5e7eb;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background-color: #fff;
+}
+
+
 @media screen and (min-width: 768px) {
   .menu-item {
     grid-template-columns: 225px 1fr;
@@ -316,6 +379,8 @@ Menu
     height: 150px;
   }
 }
+
+/* navbar */
 
 @media screen and (min-width: 800px) {
   .nav-center {

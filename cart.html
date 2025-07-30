@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Menu</title>
+    <!-- font-awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
+    />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <!-- styles -->
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    
+    <nav>
+        <div class="nav-center">
+            
+            <div class="nav-header">
+                <button class="nav-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+
+            <ul class="links">
+            <li>
+                <a href="index.html">home</a>
+            </li>
+            <li>
+                <a href="shop.html">shop</a>
+            </li>
+            <li>
+                <a href="cart.html">cart</a>
+            </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Contenido que se inserta cuando navegas a "cart" -->
+    <section class="max-w-6xl mx-auto px-4 py-8">
+        <h1 class="text-4xl font-bold text-gray-800 mb-6">Shopping Cart</h1>
+
+        <div class="overflow-x-auto">
+            <table class="min-w-full bg-white rounded-lg shadow cart-table">
+            <thead class="bg-gray-100 text-gray-500 text-sm uppercase">
+                <tr>
+                <th class="px-6 py-4 text-left">Name</th>
+                <th class="px-6 py-4 text-left">Details</th>
+                <th class="px-6 py-4 text-left">Price</th>
+                <th class="px-6 py-4 text-left">Quantity</th>
+                <th class="px-6 py-4 text-left">Total</th>
+                <th class="px-6 py-4 text-right">Delete</th>
+                </tr>
+            </thead>
+            <tbody id="cart-table-body" class="text-gray-700 text-sm">
+
+                <script>
+                    const cartBody = document.querySelector('#cart-table-body');
+                    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+                    function displayCart() {
+                        if (!cart.length) {
+                        cartBody.innerHTML = '<tr><td colspan="6" class="px-6 py-4 text-center text-gray-500">El carrito está vacío.</td></tr>';
+                        return;
+                        }
+
+                    cartBody.innerHTML = cart.map(product => `
+                        <tr class="border-b border-gray-200">
+                            <td class="px-6 py-4 flex items-center">
+                            <img src="${product.img}" alt="${product.title}" class="w-12 h-12 object-cover mr-4 rounded" />
+                            <span>${product.title}</span>
+                            </td>
+                            <td class="px-6 py-4">${product.desc}</td>
+                            <td class="px-6 py-4 text-green-600 font-semibold">$${product.price}</td>
+                            <td class="px-6 py-4">
+                            <select class="cart-qty-select border rounded px-2 py-1" data-id="${product.id}">
+                                ${[1,2,3,4,5].map(q => `<option value="${q}" ${q === product.quantity ? 'selected' : ''}>${q}</option>`).join('')}
+                            </select>
+                            </td>
+                            <td class="px-6 py-4">$${(product.price * product.quantity).toFixed(2)}</td>
+                            <td class="px-6 py-4 text-red-500 cursor-pointer">
+                            <button class="cart-delete-button" data-id="${product.id}">Delete</button>
+                            </td>
+                        </tr>
+                        `).join('');
+                    }
+
+                    cartBody.addEventListener('change', e => {
+                        if (e.target.classList.contains('cart-qty-select')) {
+                        const id = e.target.dataset.id;
+                        const qty = parseInt(e.target.value);
+                        const item = cart.find(p => p.id === id);
+                        if (item) {
+                            item.quantity = qty;
+                            localStorage.setItem('cart', JSON.stringify(cart));
+                            displayCart();
+                        }
+                        }
+                    });
+
+                    cartBody.addEventListener('click', e => {
+                        if (e.target.classList.contains('cart-delete-button')) {
+                        const id = e.target.dataset.id;
+                        cart = cart.filter(p => p.id !== id);
+                        localStorage.setItem('cart', JSON.stringify(cart));
+                        displayCart();
+                        }
+                    });
+
+                    displayCart();
+                    </script>
+
+            </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- javascript -->
+    <script src="cart.js"></script>
+    
+  </body>
+</html>
